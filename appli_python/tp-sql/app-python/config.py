@@ -1,7 +1,8 @@
+import os
 config = {
-    'user' : 'admin',
-    'password' : 'password',
-    'host': 'localhost',
+    'user' : os.getenv("MARIADB_USER"),
+    'password' : os.getenv("MARIADB_PASSWORD"),
+    'host': os.getenv("DB_HOST"),
     'port': 3306,
-    'database': 'parc_informatique'
+    'database': os.getenv("DB_NAME")
 }
