@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pythonapp
+  labels:
+    app: pythonapp          # arbitrary label on deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:        # labels the replica selector should match
+      app: pythonapp
+  template:
+    metadata:
+      labels:
+        app: pythonapp      # label for replica selector to match
+    spec:
+      containers:
+      - name: imagemypythonapp
+        image: pontetcha/imagemypythonapp:latest
+        ports:
+        - containerPort: 5000
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+  labels:
+    app: mariadb          # arbitrary label on deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:        # labels the replica selector should match
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb      # label for replica selector to match
+    spec:
+      volumes:
+      - name : mariadb-volume
+        persistentVolumeClaim:
+          claimName: pvc-mariadb
+      containers:
+      - name: imagemymariadb
+        image: pontetcha/imagemymariadb:latest
+        ports:
+        - containerPort: 3606
+        volumeMounts:
+        - mountPath: 
+          name: mariadb-volume
+        
+--- 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mynetwork
+  labels:
+    app: nginx
+spec:
+  type: LoadBalancer
+  ports:
+   - port: 80
+     protocol: TCP 
+  selector:
+    app: nginx
+
+
