@@ -5,6 +5,7 @@ ARG MARIADB_USER
 ARG MARIADB_PASSWORD 
 ARG DB_HOST 
 ARG DB_NAME
+
 RUN apt-get update -y
 RUN apt-get install -y python3-pip
 RUN pip3 install mariadb
