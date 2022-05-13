@@ -31,6 +31,8 @@ spec:
       - name: imagemymariadb
         image: pontetcha/imagemymariadb:latest
         env:
+        - name: MARIADB_ROOT_PASSWORD
+          value: password
         - name: MARIADDB_USER
           value: admin
         - name: MARIADB_PASSWORD
@@ -42,7 +44,7 @@ spec:
         ports:
         - containerPort: 3606
         volumeMounts:
-        - mountPath: /home/formation/TP4_kubernetes
+        - mountPath: /home/mtn_pvc
           name: mariadb-volume
       volumes:
       - name : mariadb-volume
