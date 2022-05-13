@@ -17,40 +17,38 @@ spec:
       containers:
       - name: imagemypythonapp
         image: pontetcha/imagemypythonapp:latest
+        env:
+        - name: MARIADDB_USER
+          value: admin
+        - name: MARIADB_PASSWORD
+          value: password
+        - name: DB_HOST
+          value: 172.19.0.2
+        - name: DB_NAME
+          value: parc_informatique
         ports:
         - containerPort: 5000
-
----
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mariadb
-  labels:
-    app: mariadb          # arbitrary label on deployment
-spec:
-  replicas: 1
-  selector:
-    matchLabels:        # labels the replica selector should match
-      app: mariadb
-  template:
-    metadata:
-      labels:
-        app: mariadb      # label for replica selector to match
-    spec:
+      - name: imagemymariadb
+        image: pontetcha/imagemymariadb:latest
+        env:
+        - name: MARIADDB_USER
+          value: admin
+        - name: MARIADB_PASSWORD
+          value: password
+        - name: DB_HOST
+          value: 172.19.0.2
+        - name: DB_NAME
+          value: parc_informatique
+        ports:
+        - containerPort: 3606
+        volumeMounts:
+        - mountPath: /home/formation/TP4_kubernetes
+          name: mariadb-volume
       volumes:
       - name : mariadb-volume
         persistentVolumeClaim:
           claimName: pvc-mariadb
-      containers:
-      - name: imagemymariadb
-        image: pontetcha/imagemymariadb:latest
-        ports:
-        - containerPort: 3606
-        volumeMounts:
-        - mountPath: 
-          name: mariadb-volume
-        
+ 
 --- 
 
 apiVersion: v1
@@ -63,7 +61,7 @@ spec:
   type: NodePort
   ports:
    - port: 5000
-     protocol: TCP  # A garder ou pas ? 
+     protocol: TCP  
   selector:
     app: pythonapp
 
