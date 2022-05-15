@@ -15,7 +15,7 @@ spec:
         app: pythonapp      # label for replica selector to match
     spec:
       containers:
-      - name: imagemypythonapp
+      - name: app
         image: pontetcha/imagemypythonapp:latest
         env:
         - name: MARIADDB_USER
@@ -23,12 +23,17 @@ spec:
         - name: MARIADB_PASSWORD
           value: password
         - name: DB_HOST
-          value: 172.19.0.2
+          value: 0.0.0.0
         - name: DB_NAME
           value: parc_informatique
+        command: ["/bin/sh"]
+        args: ["-c", "sleep 10000"]
         ports:
         - containerPort: 5000
-      - name: imagemymariadb
+        volumeMounts:
+        - mountPath: /home/mtn_pvc
+          name: app-volume
+      - name: db
         image: pontetcha/imagemymariadb:latest
         env:
         - name: MARIADB_ROOT_PASSWORD
@@ -38,25 +43,27 @@ spec:
         - name: MARIADB_PASSWORD
           value: password
         - name: DB_HOST
-          value: 172.19.0.2
+          value: 0.0.0.0
         - name: DB_NAME
           value: parc_informatique
         ports:
         - containerPort: 3606
         volumeMounts:
-        - mountPath: /home/mtn_pvc
+        - mountPath: /var/lib/mysql
           name: mariadb-volume
       volumes:
       - name : mariadb-volume
         persistentVolumeClaim:
           claimName: pvc-mariadb
- 
+      - name : app-volume
+        persistentVolumeClaim:
+          claimName: pvc-app
 --- 
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: myservicenodeport
+  name: nodeport
   labels:
     app: pythonapp
 spec:

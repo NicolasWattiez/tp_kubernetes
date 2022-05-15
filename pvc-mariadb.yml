@@ -17,4 +17,25 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
+      storage: 2Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-app
+  labels:
+    name: pvc-app
+    app: efk
+spec:
+  # If you are using dynamic provisioning, it is important to specify a storageClassName.
+  storageClassName: "standard"
+  #selector:
+   # matchLabels:
+    #  name: pv-nginx
+  accessModes:
+    # Though accessmode is already defined in pv definition. It is still needed here.
+    # - ReadWriteMany
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
