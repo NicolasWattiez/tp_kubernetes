@@ -3,6 +3,8 @@
 Ce TP a été réalisé dans le cadre de la formation "Ingénieur devops" d'AJC ingénieurie.
 Le sujet a été réalisé par Vanessa David, Ingénieure DevOps.
 
+Les fichiers Dockefile se situant dans appli-python et database sont les fichiers Dockerfile ayant servis à créer les images récupérés dans le script manifest.yaml.
+
 ## Prérequis
 
 - Docker
