@@ -3,6 +3,28 @@
 Ce TP a été réalisé dans le cadre de la formation "Ingénieur devops" d'AJC ingénieurie.
 Le sujet a été réalisé par Vanessa David, Ingénieure DevOps.
 
+## Prérequis
+
+- Docker
+- Minikube
+- Kubectl
+
+
+## Démarer minikube
+
+```
+minikube start
+```
+
+Vérifier le statut de minikube
+
+```
+minikube status
+```
+
+## Déployer et tester l'application
+
+
 1) Créer les volumes persistents:
 ```
 kubectl create -f pvc-mariadb.yml
@@ -13,10 +35,16 @@ kubectl create -f pvc-mariadb.yml
 kubectl create -f manifest.yaml
 ```
 
+3) Récupérer le nom du pod:
+
+```
+kubectl get pod
+```
+
 3) Accéder au container python:
 
 ```
-kubectl exec -it pythonapp-7c56d78666-8rkkk -c app bash
+kubectl exec -it <name_pod> -c app bash
 ```
 
 4) Lancer l'application python:
@@ -30,6 +58,6 @@ On peut tester que les volumes sont bien persistent en supprimant le pod à l'ai
 ```
 kubectl delete -f manifest.yaml
 ```
-Puis en répétant les étapes 2 à 4
+Puis en répétant les étapes 2 à 4.
 
 
