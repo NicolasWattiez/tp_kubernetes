@@ -41,13 +41,13 @@ kubectl create -f manifest.yaml
 kubectl get pod
 ```
 
-3) Accéder au container python:
+4) Accéder au container python:
 
 ```
 kubectl exec -it <name_pod> -c app bash
 ```
 
-4) Lancer l'application python:
+5) Lancer l'application python:
 ```
 python /usr/src/app/main.py
 ```
